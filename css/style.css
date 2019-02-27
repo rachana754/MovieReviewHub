@@ -25,19 +25,24 @@ body {
 }
 .logo{
 	height:90px;
-	width:160px ;
+	width:160px;
+	/* float: left; */
 }
 .logoName{
 	color: #d60431;
-    position: relative;
-    bottom: 35px;
-    font-weight: bold;
-    left: -34px;
-    font-size: 25px;
+	position: relative;
+	bottom: 35px;
+	font-weight: bold;
+	left: -34px;
+	font-size: 25px;
 }
-.aquaman{
-	height:130px;
-	width:100px;
+.item-photo{
+	height: 135px;
+	width: 115px;
+	float: left;
+	/* margin-left: auto; */
+	margin-right: 15px;
+	/* padding-right: 10px; */
 }
 .login{
 	float: right;
@@ -125,7 +130,7 @@ main p{
 	padding: 3px;
 }
 .itemList p{
-	margin:2px 0 0 0;
+	margin: 5px 0 0 0;
 	padding: 0px;
 }
 .linkbar{
@@ -135,39 +140,26 @@ main p{
 	text-decoration: none;
 	color:black;
 }
-.item{
-	display: inline;
-    position: relative;
-    left: 10px;
-    bottom: 85px;
-}
-.star{
-	position: relative;
-    left: -266px;
-    bottom: 15px;
-    display: inline;
-}
-.categoryType{
-	position: relative;
-    left: -180px;
-    bottom: 45px;
-    display: inline;
-}
+
 .checked{
 	color:#eca818;
 }
 
 table{
 	width:100%;
-	border-bottom: 2px solid black;
 	margin-top: 20px;
 	border-spacing: 0px;
-
+}
+.myItems table{
+	border-bottom: 2px solid black;
 }
 .head th{
 	border-bottom: 2px solid black; 
 	color:#d60431;
 	padding: 5px;
+	height: 50px;
+}
+tr{
 	height: 50px;
 }
 .alignCenter{
@@ -186,19 +178,27 @@ td a{
 	color:black;
 }
 
-button{
-	padding: 6px 15px;	
+.button, button{
+	padding: 6px 15px;
 	cursor:pointer;
 	background-color: #eca818;
 	color:black;
 	margin: 10px 0px;
 	border: 1px solid #eca818;
-    border-radius: 5px;
-	
+	border-radius: 5px;
+	text-decoration: none;
 }
-button:hover{
+.button:hover,button:hover{
 	box-shadow: 0 8px 16px 0 rgba(0,0,0,0.2), 0 6px 20px 0 rgba(0,0,0,0.19);
 
+}
+.itemfooter{
+	margin-top: 40px;
+}
+.rating{margin-top: 20px; margin-left: 138px;}
+.feedbackBtns{
+margin-top: 25px;
+margin-left: 267px; 
 }
 .click{
 	
@@ -234,5 +234,15 @@ footer {
 	#menu{
 		min-height: 1600px;
 	}
+}
+.return-category{
+	float: right;
+	margin-top: 30px;
+	margin-right: 20px;
+    text-decoration: none;
+    background-color:#d7d9dd;
+    color: #000000;
+    padding: 5px;
+    border-radius: 5px;
 }
 
