@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang = "en">
+
+<head>
+   <meta charset = "utf-8">
+   <title><%= data.title %></title>
+   <link rel = "stylesheet" type="text/css" href="../assets/css/style.css">
+   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+</head>
+
+<body> 
+   <% include partials/header.ejs %>
+   <% include partials/user-navigation.ejs %>
+   <% include partials/site-navigation.ejs %>
+
+   <main class="myItems">
+    <h2>My Movie List </h2>
+        <table>
+            <tr class="head">
+                 <th>Movie</th>
+                 <th>Category</th>
+                 <th>My Rating</th>
+                 <th>Watched</th>
+                 <th></th>
+                 <th></th>
+            </tr>
+            <tr>
+                 <td><a href="/categories/item/1">Aquaman</a></td>
+                 <td>Super Hero</td>
+                 <td><span class="fa fa-star checked"></span>
+                     <span class="fa fa-star checked"></span>
+                     <span class="fa fa-star checked"></span>
+                     <span class="fa fa-star checked"></span>
+                     <span class="fa fa-star checked"></span>
+                  </td>
+                 <td class="alignCenter tickGreen"><i class="fa fa-check-square" aria-hidden="true"></i></td>
+                 <td> <a class="button" href='/feedback'>Update</a> </td> 
+                 <td> <a class="button" href='/myItems'>Delete</a> </td>
+            </tr>
+            <tr>
+                 <td><a href="/categories/item/3">Black panther</a></td>
+                 <td>Super Hero</td>
+                 <td><span class="fa fa-star checked"></span>
+                     <span class="fa fa-star checked"></span>
+                     <span class="fa fa-star checked"></span>
+                     <span class="fa fa-star"></span>
+                     <span class="fa fa-star"></span>
+                  </td>
+                 <td class="alignCenter tickGreen"><i class="fa fa-check-square" aria-hidden="true"></i></td>
+                 <td> <a class="button" href='/feedback'>Update</a> </td> 
+                 <td> <a class="button" href='/myItems'>Delete</a> </td>
+            </tr>
+            <tr>
+                 <td><a href="/categories/item/4">Deadpool 2</a></td>
+                 <td>Action-Comedy</td>
+                 <td><span class="fa fa-star checked"></span>
+                     <span class="fa fa-star "></span>
+                     <span class="fa fa-star "></span>
+                     <span class="fa fa-star "></span>
+                     <span class="fa fa-star "></span>
+                  </td>
+                 <td></td>
+                 <td> <a class="button" href='/feedback'>Update</a> </td> 
+                 <td> <a class="button" href='/myItems'>Delete</a> </td>
+            </tr>
+            </table>
+            <p class="info">Click <a href="#click" class="click">here</a> to add a new movie</p>
+
+   </main>
+
+   <% include partials/footer.ejs %>
+  
+</body>
+
+</html>

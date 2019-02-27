@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang = "en">
+
+<head>
+   <meta charset = "utf-8">
+   <title><%= data.title %></title>
+   <link rel = "stylesheet" type="text/css" href="../../assets/css/style.css">
+</head>
+
+<body>
+   <% include partials/header.ejs %>
+   <% include partials/user-navigation.ejs %>
+   <% include partials/site-navigation.ejs %>
+   <main class="categories">
+
+    <div class="linkbar">
+       <a href="/">Home ></a>
+       <span>Categories</span><br>
+    </div>
+     <% for(i=0; i< data.categories.length; i++){ %>
+     <section >
+          <h3><%= data.categories[i] %></h3>
+          <ul class="items">
+             <% for(j=0; j< data.items.length; j++){
+               if(data.categories[i] === data.items[j].catalogCategory){ %>
+             <li><a href="/categories/item/<%= data.items[j].itemCode %>"><%= data.items[j].itemName%></a></li>
+             <% } }%>
+          </ul>
+     </section>
+     <% } %>
+
+   </main>
+   <% include partials/footer.ejs %>
+
+</body>
+
+</html>

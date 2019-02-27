@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang = "en">
+<head>
+   <meta charset = "utf-8">
+   <title><%= data.title %></title>
+   <link rel = "stylesheet" type="text/css" href="../assets/css/style.css">
+   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+   <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.3.1/css/all.css" integrity="sha384-mzrmE5qonljUremFsqc01SB46JvROS7bZs3IO2EmfFsd15uHvIt+Y8vEf7N7fWAU" crossorigin="anonymous">
+</head>
+<body>
+  <% include partials/header.ejs %>
+  <% include partials/user-navigation.ejs %>
+  <% include partials/site-navigation.ejs %>
+   <main class="itemList">
+     <div>
+        <h2>Give your feedback for</h2>
+        <br>
+      <img src="../assets/images/1.jpg" alt="Aquaman" class="item-photo" >
+      <h2 class="item">Aquaman (2018)</h2>
+      <p class="categoryType">Super Hero</p>
+      <p>Once home to the most advanced civilization on Earth, the city of Atlantis is now an underwater kingdom ruled by the power-hungry King Orm. With a vast army at his disposal, Orm plans to conquer the remaining oceanic people -- and then the surface world. Standing in his way is Aquaman, Orm's half-human, half-Atlantean brother and true heir to the throne. </p>
+     </div>
+     <div class="rating">
+         <span>Rating:</span>
+         <select>
+             <option value="1star">1 star</option>
+             <option value="2star">2 star</option>
+             <option value="3star">3 star</option>
+             <option value="4star">4 star</option>
+             <option value="5star">5 star</option>
+           </select>
+           <a href="#" class="button">Confirm Rating</a>
+     </div>
+     <div class="feedbackBtns">
+         <a href="#" class="button">I watched it</a>
+     </div>
+   </main>
+   <% include partials/footer.ejs %>
+</body>
+</html>
