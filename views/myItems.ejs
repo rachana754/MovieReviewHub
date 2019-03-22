@@ -9,9 +9,9 @@
 </head>
 
 <body> 
-   <% include partials/header.ejs %>
-   <% include partials/user-navigation.ejs %>
-   <% include partials/site-navigation.ejs %>
+     <%- include('partials/header.ejs', {userName:data.userName}); %>
+     <%- include('partials/user-navigation.ejs',{loginButton:data.loginButton}); %>
+     <% include partials/site-navigation.ejs %>
 
    <main class="myItems">
     <h2>My Movie List </h2>
@@ -24,45 +24,44 @@
                  <th></th>
                  <th></th>
             </tr>
-            <tr>
-                 <td><a href="/categories/item/1">Aquaman</a></td>
-                 <td>Super Hero</td>
-                 <td><span class="fa fa-star checked"></span>
-                     <span class="fa fa-star checked"></span>
-                     <span class="fa fa-star checked"></span>
-                     <span class="fa fa-star checked"></span>
-                     <span class="fa fa-star checked"></span>
-                  </td>
-                 <td class="alignCenter tickGreen"><i class="fa fa-check-square" aria-hidden="true"></i></td>
-                 <td> <a class="button" href='/feedback'>Update</a> </td> 
-                 <td> <a class="button" href='/myItems'>Delete</a> </td>
-            </tr>
-            <tr>
-                 <td><a href="/categories/item/3">Black panther</a></td>
-                 <td>Super Hero</td>
-                 <td><span class="fa fa-star checked"></span>
-                     <span class="fa fa-star checked"></span>
-                     <span class="fa fa-star checked"></span>
-                     <span class="fa fa-star"></span>
-                     <span class="fa fa-star"></span>
-                  </td>
-                 <td class="alignCenter tickGreen"><i class="fa fa-check-square" aria-hidden="true"></i></td>
-                 <td> <a class="button" href='/feedback'>Update</a> </td> 
-                 <td> <a class="button" href='/myItems'>Delete</a> </td>
-            </tr>
-            <tr>
-                 <td><a href="/categories/item/4">Deadpool 2</a></td>
-                 <td>Action-Comedy</td>
-                 <td><span class="fa fa-star checked"></span>
-                     <span class="fa fa-star "></span>
-                     <span class="fa fa-star "></span>
-                     <span class="fa fa-star "></span>
-                     <span class="fa fa-star "></span>
-                  </td>
-                 <td></td>
-                 <td> <a class="button" href='/feedback'>Update</a> </td> 
-                 <td> <a class="button" href='/myItems'>Delete</a> </td>
-            </tr>
+            <% for(var i=0; i < data.userData.length; i++){ %>
+               <tr>
+                    <td><a href="/categories/item/<%= data.userData[i]._itemCode %>"><%= data.userData[i]._itemName %></a></td>
+                    <td><%= data.userData[i]._itemCategory%></td>
+                    <td class="star">
+                         <% var j= data.userData[i]._rating; %>
+                            <% for(var k=0; k<5; k++){
+                                  if(j>0){ %>
+                                      <span class="fa fa-star checked"></span>
+                                    <%	j--;
+                                    }
+                                    else{ %>
+                                       <span class="fa fa-star"></span>
+                              <%		}
+                                  } %>
+                    </td>
+                     <% 
+                         var flag= data.userData[i]._watchedIt;
+                         %>
+                         <% if(flag == 1){ %>
+                              <td class="alignCenter tickGreen"><i class="fa fa-check-square" aria-hidden="true"></i></td>
+                         <% }
+                         else{ %>
+                              <td class="alignCenter crossRed"><i class="fa fa-times-circle" aria-hidden="true"></i></td>
+                         <% } %>
+                         
+                    <td> <a class="button" href='/feedback/<%= data.userData[i]._itemCode %>'>Update</a> </td>
+                    <td>
+                         <form action="/delete" method="POST">
+                                   <input type="hidden" name="itemCode" value="<%= data.userData[i]._itemCode %>" />
+                                   <button type="submit" name="delete" value="delete">Delete</button>
+                          </form>
+                         
+                    </td>
+                    
+               </tr>
+               <% } %>
+              
             </table>
             <p class="info">Click <a href="#click" class="click">here</a> to add a new movie</p>
 
