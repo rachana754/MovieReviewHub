@@ -1,27 +1,54 @@
 var express = require('express');
 var router = express.Router();
 var itemDb = require('../utility/ItemDB');
-
+router.get('/*',function(req,res,next){
+    if(req.session.theUser){
+            userName = "Welcome " + req.session.theUser._firstName;
+            console.log(req.session.theUser._firstName);
+            loginButton= 'Sign Out' 
+        
+   }
+   else{
+           userName= 'Not signed in';
+           loginButton= 'Sign In';
+       
+   }
+   next();
+   
+});
 router.get('/',function(req,res){
-  var data = {
-      title: 'Home'
-  }
-  res.render('index',{data:data});
+    var data = {
+        title: 'Home',
+        userName: userName,
+        loginButton: loginButton
+    }
+    res.render('index',{data:data});
 });
 
+router.get('/index',function(req,res){
+    var data = {
+        title: 'Home',
+        userName: userName,
+        loginButton: loginButton
+    }
+    res.render('index',{data:data});
+    
+  });
 
 router.get('/categories/item/:itemCode',function(req,res){
     var itemCode = req.params.itemCode;
     console.log("Item Code:"+ itemCode);
-    var itemData = itemDb.getItems();
-    var categories = getCategories();
     var item = itemDb.getItem(itemCode);
     if(item === undefined)
     {
+      var itemData = itemDb.getItems();
+      var categories = getCategories();
       var data = {
           title:'Categories',
           categories: categories,
-          items: itemData
+          items: itemData,
+          userName: userName,
+          loginButton: loginButton
       }
     res.render('categories',{data:data});
     }
@@ -30,6 +57,8 @@ router.get('/categories/item/:itemCode',function(req,res){
      var data = {
          title:'Item',
          item: item,
+         userName: userName,
+         loginButton: loginButton
      }
     res.render('item',{data: data});
   }
@@ -47,7 +76,9 @@ router.get('/categories/:categoryName',function(req,res){
         var data = {
             title:'Categories',
             categories: categories,
-            items: itemData 
+            items: itemData,
+            userName: userName,
+            loginButton: loginButton
         }
         res.render('categories',{data:data});
     }
@@ -55,7 +86,9 @@ router.get('/categories/:categoryName',function(req,res){
         var data = {
             title:'Categories',
             categories: categoryList,
-            items: itemData 
+            items: itemData ,
+            userName: userName,
+            loginButton: loginButton
         }
         res.render('categories',{data:data});
     }
@@ -68,38 +101,33 @@ router.get('/categories',function(req,res){
     var data = {
         title:'Categories',
         categories: categories,
-        items: itemData
+        items: itemData,
+        userName: userName,
+        loginButton: loginButton
     }
     res.render('categories',{data:data});
  });
  
 router.get('/contact',function(req,res){
     var data = {
-        title:'Contact Us'
+        title:'Contact Us',
+        userName: userName,
+        loginButton: loginButton
     }
     res.render('contact',{data:data});
 });
 
 router.get('/about',function(req,res){
-    var data={
-        title: 'About Us'
+    
+   var data={
+    title: 'About Us',
+    userName: userName,
+    loginButton: loginButton
     }
-    res.render('about',{data:data})
+    res.render('about',{data:data});     
+    
 });
 
-router.get('/feedback',function(req,res){
-    var data={
-        title: 'Feedback'
-    }
-    res.render('feedback',{data:data})
-});
-
-router.get('/myItems',function(req,res){
-    var data = {
-        title: 'My Movies'
-    }
-    res.render('myItems',{data:data})
-});
 
 var categories = [];
 
