@@ -8,32 +8,45 @@
    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.3.1/css/all.css" integrity="sha384-mzrmE5qonljUremFsqc01SB46JvROS7bZs3IO2EmfFsd15uHvIt+Y8vEf7N7fWAU" crossorigin="anonymous">
 </head>
 <body>
-  <% include partials/header.ejs %>
-  <% include partials/user-navigation.ejs %>
+  <%- include('partials/header.ejs', {userName:userName}); %>
+  <%- include('partials/user-navigation.ejs',{loginButton:loginButton}); %>
   <% include partials/site-navigation.ejs %>
    <main class="itemList">
      <div>
         <h2>Give your feedback for</h2>
         <br>
-      <img src="../assets/images/1.jpg" alt="Aquaman" class="item-photo" >
-      <h2 class="item">Aquaman (2018)</h2>
-      <p class="categoryType">Super Hero</p>
-      <p>Once home to the most advanced civilization on Earth, the city of Atlantis is now an underwater kingdom ruled by the power-hungry King Orm. With a vast army at his disposal, Orm plans to conquer the remaining oceanic people -- and then the surface world. Standing in his way is Aquaman, Orm's half-human, half-Atlantean brother and true heir to the throne. </p>
+      <img src="../assets/images/<%= data.item.itemCode %>.jpg" alt="Aquaman" class="item-photo" />
+      <h2 class="item"><%= data.item.itemName %></h2>
+      <p class="categoryType"><%= data.item.catalogCategory %></p>
+      <p><%= data.item.description %></p>
      </div>
+     <form action="/update" method="POST">
      <div class="rating">
          <span>Rating:</span>
-         <select>
-             <option value="1star">1 star</option>
-             <option value="2star">2 star</option>
-             <option value="3star">3 star</option>
-             <option value="4star">4 star</option>
-             <option value="5star">5 star</option>
+         <select name = "rating" >
+            <option value="<%= data.rating %>" selected><%= data.rating %></option>
+             <option value="1">1</option>
+             <option value="2">2</option>
+             <option value="3">3</option>
+             <option value="4" >4</option>
+             <option value="5">5</option>
            </select>
-           <a href="#" class="button">Confirm Rating</a>
+           <input type="hidden" name="itemCode" value="<%= data.item.itemCode %>" />
+           <input type="hidden" name="itemRating" value="<%= data.item.rating %>" />
+           <button type="submit" name="action" value="delete" class="confirmBtn">Confirm Rating</button>
      </div>
      <div class="feedbackBtns">
-         <a href="#" class="button">I watched it</a>
+       <span>Watched It:</span>
+       <% if(data.flag == 1){ %>
+        <input type= "radio" name="radio" value="1" checked/>Yes
+        <input type= "radio" name="radio" value="0"/>No
+       <% }
+       else{ %>
+        <input type= "radio" name="radio" value="1"/>Yes
+        <input type= "radio" name="radio" value="0" checked/>No
+       <% } %>
      </div>
+    </form>
    </main>
    <% include partials/footer.ejs %>
 </body>
