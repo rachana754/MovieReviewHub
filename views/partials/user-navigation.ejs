@@ -1,6 +1,11 @@
 <nav id="navbar">
   <ul>
-   <li><a href="#signIn">Sign In |</a></li>
+    <% if(loginButton === 'Sign Out'){ %>
+      <li><a href="/signout"><%= loginButton %> |</a></li>
+    <% } 
+    else{ %>
+      <li><a href="/myItems"><%= loginButton %> |</a></li>
+    <% } %>
    <li><a href="/myItems">My Movies |</a></li>
    <li><a href="#cart">Cart</a></li>
   </ul>
