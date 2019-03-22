@@ -8,9 +8,9 @@
    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.3.1/css/all.css" integrity="sha384-mzrmE5qonljUremFsqc01SB46JvROS7bZs3IO2EmfFsd15uHvIt+Y8vEf7N7fWAU" crossorigin="anonymous">
 </head>
 <body>
-  <% include partials/header.ejs %>
-  <% include partials/user-navigation.ejs %>
-  <% include partials/site-navigation.ejs %>
+   <%- include('partials/header.ejs', {userName:userName}); %>
+   <%- include('partials/user-navigation.ejs',{loginButton:loginButton}); %>
+    <% include partials/site-navigation.ejs %>
    <main class="itemList">
          <a href="/categories" class="return-category"><i class="fas fa-chevron-circle-left"></i>  Return to Category</a>
     <div class="linkbar">
@@ -36,8 +36,11 @@
           </p>
      </div>
      <div class="itemfooter">
-        <a href="/myItems" class="button">Save it</a>
-        <a href="#" class="button">Rate it</a>
+        <form action="/save" method="POST" class="form">
+         <input type="hidden" name="itemCode" value="<%= data.item.itemCode %>" />
+         <button type="submit" name="action" value="save">Save it</button>
+         </form>
+        <a href="/feedback/<%=data.item.itemCode%>" class="button">Rate it</a>
        <br>
        <br>
        <br>
