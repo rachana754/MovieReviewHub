@@ -16,6 +16,7 @@ var getItems= function(){
     return items;
 };
 
+
 //getItem
 var getItem = function(itemCode){
     for(var i=0;i<data.length;i++){
@@ -88,6 +89,7 @@ var data = [
         imgUrl:  "../../assets/images/6.jpg",
     }
 ];
+//console.log(getItem(4)._itemName);
 
 module.exports.getItem = getItem;
 module.exports.getItems = getItems;
