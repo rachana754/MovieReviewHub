@@ -26,10 +26,10 @@
             </tr>
             <% for(var i=0; i < data.userData.length; i++){ %>
                <tr>
-                    <td><a href="/categories/item/<%= data.userData[i]._itemCode %>"><%= data.userData[i]._itemName %></a></td>
-                    <td><%= data.userData[i]._itemCategory%></td>
+                    <td><a href="/categories/item/<%= data.userData[i].itemCode %>"><%= data.itemName[i] %></a></td>
+                    <td><%= data.itemCategory[i]%></td>
                     <td class="star">
-                         <% var j= data.userData[i]._rating; %>
+                         <% var j= data.userData[i].rating; %>
                             <% for(var k=0; k<5; k++){
                                   if(j>0){ %>
                                       <span class="fa fa-star checked"></span>
@@ -41,7 +41,7 @@
                                   } %>
                     </td>
                      <% 
-                         var flag= data.userData[i]._watchedIt;
+                         var flag= data.userData[i].watchedIt;
                          %>
                          <% if(flag == 1){ %>
                               <td class="alignCenter tickGreen"><i class="fa fa-check-square" aria-hidden="true"></i></td>
@@ -50,10 +50,10 @@
                               <td class="alignCenter crossRed"><i class="fa fa-times-circle" aria-hidden="true"></i></td>
                          <% } %>
                          
-                    <td> <a class="button" href='/feedback/<%= data.userData[i]._itemCode %>'>Update</a> </td>
+                    <td> <a class="button" href='/feedback/<%= data.userData[i].itemCode %>'>Update</a> </td>
                     <td>
                          <form action="/delete" method="POST">
-                                   <input type="hidden" name="itemCode" value="<%= data.userData[i]._itemCode %>" />
+                                   <input type="hidden" name="itemCode" value="<%= data.userData[i].itemCode %>" />
                                    <button type="submit" name="delete" value="delete">Delete</button>
                           </form>
                          

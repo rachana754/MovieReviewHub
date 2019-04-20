@@ -1,10 +1,13 @@
 var express = require('express');
 var router = express.Router();
 var itemDb = require('../utility/ItemDB');
+var userItemDb = require('../utility/UserItemDB');
+
+// This middleware function will set the welcome header and login button accordingly before any routing is called.
 router.get('/*',function(req,res,next){
     if(req.session.theUser){
-            userName = "Welcome " + req.session.theUser._firstName;
-            console.log(req.session.theUser._firstName);
+            userName = "Welcome " + req.session.theUser.firstName;
+            console.log(req.session.theUser.firstName);
             loginButton= 'Sign Out' 
         
    }
@@ -16,6 +19,8 @@ router.get('/*',function(req,res,next){
    next();
    
 });
+
+//This function is for displaying index page. Below 2 routes are used for it.
 router.get('/',function(req,res){
     var data = {
         title: 'Home',
@@ -35,14 +40,28 @@ router.get('/index',function(req,res){
     
   });
 
-router.get('/categories/item/:itemCode',function(req,res){
+  //This function will retrieve item details of particular item.
+  //flag is used to hide/display save button according to user items in his profile.
+router.get('/categories/item/:itemCode',async function(req,res){
     var itemCode = req.params.itemCode;
     console.log("Item Code:"+ itemCode);
-    var item = itemDb.getItem(itemCode);
-    if(item === undefined)
+    var x = new itemDb();
+    var item = await x.getItem(itemCode);
+    var session = req.session.theUser;
+    var flag = 0 ;
+    if(session){
+        var y = new userItemDb();
+        var userData = await y.getuserItemData(itemCode);
+        if(userData != null && userData.itemCode == itemCode){
+            flag = 1;
+        }
+    }
+    if(item === undefined || item == null)
     {
-      var itemData = itemDb.getItems();
-      var categories = getCategories();
+      var itemData = await x.getItems();
+      var categories = await x.getCategories();
+      console.log("categories are:");
+      console.log(categories);
       var data = {
           title:'Categories',
           categories: categories,
@@ -58,21 +77,20 @@ router.get('/categories/item/:itemCode',function(req,res){
          title:'Item',
          item: item,
          userName: userName,
-         loginButton: loginButton
+         loginButton: loginButton,
+         flag: flag
      }
     res.render('item',{data: data});
   }
 });
 
-router.get('/categories/:categoryName',function(req,res){
+//This function will retrieve items only of that particular category name
+router.get('/categories/:categoryName', async function(req,res){
     var categories = [];
     categories.push(req.params.categoryName);
     console.log("Category:"+ categories);
-    var categoryList = getCategories();
-    console.log("Category List:"+ categoryList);
-    var itemData = itemDb.getItems();
-    console.log(categoryList.includes(categories));
-    if(categoryList.includes(categories)){
+    var x = new itemDb();
+    var itemData = await x.getItems();
         var data = {
             title:'Categories',
             categories: categories,
@@ -80,24 +98,14 @@ router.get('/categories/:categoryName',function(req,res){
             userName: userName,
             loginButton: loginButton
         }
-        res.render('categories',{data:data});
-    }
-    else{
-        var data = {
-            title:'Categories',
-            categories: categoryList,
-            items: itemData ,
-            userName: userName,
-            loginButton: loginButton
-        }
-        res.render('categories',{data:data});
-    }
-    
+        res.render('categories',{data:data});    
 });
 
-router.get('/categories',function(req,res){
-    var categories = getCategories();
-    var itemData = itemDb.getItems();
+//This function will retrieve all catalog items.
+router.get('/categories', async function(req,res){
+    let x = new itemDb();
+    var categories = await x.getCategories();
+    var itemData = await x.getItems();
     var data = {
         title:'Categories',
         categories: categories,
@@ -108,6 +116,7 @@ router.get('/categories',function(req,res){
     res.render('categories',{data:data});
  });
  
+ //This function will display contact page of Website
 router.get('/contact',function(req,res){
     var data = {
         title:'Contact Us',
@@ -117,6 +126,7 @@ router.get('/contact',function(req,res){
     res.render('contact',{data:data});
 });
 
+//This function will display about page of Website
 router.get('/about',function(req,res){
     
    var data={
@@ -127,22 +137,5 @@ router.get('/about',function(req,res){
     res.render('about',{data:data});     
     
 });
-
-
-var categories = [];
-
-let getCategories = function() {
-    // get the category of each item
-    var data = itemDb.getItems();
-    data.forEach(function (item) {
-        //console.log(!categories.includes(item.catalogCategory));
-        if(!categories.includes(item.catalogCategory)){
-            categories.push(item.catalogCategory);
-        }
-        
-    });
-    return categories;
-};
-
 
 module.exports = router;

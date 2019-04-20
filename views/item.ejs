@@ -19,27 +19,29 @@
        <span>Item </span><br><br>
     </div>
      <div>
-      <img src= '<%=data.item.imageURL%>' alt="Item picture" class="item-photo" >
+      <img src="/assets/images/<%= data.item.itemCode %>.jpg" alt="Item picture" class="item-photo" >
       <h2 class="item"><%= data.item.itemName %></h2>
       <p class="categoryType"><%= data.item.catalogCategory %></p>
-          <p class="star">
-            <% var j= data.item.rating; %>
-               <% for(var i=0;i<5;i++){
-                     if(j>0){ %>
-                         <span class="fa fa-star checked"></span>
-                       <%	j--;
-                       }
-                       else{ %>
-                          <span class="fa fa-star"></span>
-                 <%		}
-                     } %>
-          </p>
+      <p class="star">
+         <% var j= data.item.rating; %>
+            <% for(var k=0; k< 5; k++){
+                  if(j>0){ %>
+                      <span class="fa fa-star checked"></span>
+                    <%	j--;
+                    }
+                    else{ %>
+                       <span class="fa fa-star"></span>
+              <%		}
+                  } %>
+               </p>
      </div>
      <div class="itemfooter">
+        <% if(data.flag == 0){ %>
         <form action="/save" method="POST" class="form">
          <input type="hidden" name="itemCode" value="<%= data.item.itemCode %>" />
          <button type="submit" name="action" value="save">Save it</button>
          </form>
+         <% } %>
         <a href="/feedback/<%=data.item.itemCode%>" class="button">Rate it</a>
        <br>
        <br>

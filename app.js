@@ -3,6 +3,8 @@ var app = express();
 app.set('view engine','ejs');
 app.use('/assets',express.static('assets'));
 var session = require('express-session');
+var mongoose = require('mongoose');
+mongoose.connect('mongodb://localhost/Movies');
 var cookieParser = require('cookie-parser');
 app.use(cookieParser());
 app.use(session({resave: true,secret: 'secretToken', saveUninitialized:true}));
