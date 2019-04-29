@@ -6,12 +6,8 @@ class ItemDB {
     //This function retrieves all the items from the DB
     getItems(){
         return new Promise( function(resolve, reject){
-            var stmt;
-            stmt = Item.find();
-            stmt.then(function(data){
+            Item.find().then(function(data){
                 resolve(data);
-                console.log('check');
-                console.log(data);
             }).catch(function(err){
                 console.log(err);
                 return reject(err);
@@ -27,7 +23,7 @@ class ItemDB {
             stmt = Item.findOne({itemCode:code});
             stmt.then(function(data){
                 resolve(data);
-                console.log(data);
+                //console.log(data);
             }).catch(function(err){
                 console.log(err);
                 return reject(err);

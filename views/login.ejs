@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang = "en">
+<head>
+   <meta charset = "utf-8">
+   <title><%= data.title %></title>
+   <link rel = "stylesheet" type="text/css" href="../assets/css/style.css">
+</head>
+<body>
+  <%- include('partials/header.ejs', {userName:userName}); %>
+  <%- include('partials/user-navigation.ejs',{loginButton:loginButton}); %>
+  <% include partials/site-navigation.ejs %>
+   <main>
+   <h1 class="loginHeader">Welcome to Movie Review Hub ! </h1>
+   <% if(data.valid){ %>
+    <p class= "error">Either username or password is incorrect. Please try again</p>
+   <% }
+   else
+   { %>
+    <p>Please enter your username and password to sign in.</p>
+   <% } %>
+      
+   <%if(data.errorArray != undefined){
+      data.errorArray.forEach(function(e){%>
+      <p class="error"><%= e %></p>
+      <%})%>
+  <%}%>
+
+    <form method = "POST" action ="/signIn">
+    <div class = "loginText">
+    <label>Username</label>
+    <input type = "text" name ="username">
+    </div>
+    <div class = "pwdText">
+    <label>Password</label>
+    <input type = "password" name ="password">
+    </div>
+    <button type="submit" class="loginBtn">Login</button>
+    </form>
+   </main>
+   <% include partials/footer.ejs %>
+</body>
+</html>

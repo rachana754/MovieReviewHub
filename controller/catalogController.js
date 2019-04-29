@@ -2,6 +2,7 @@ var express = require('express');
 var router = express.Router();
 var itemDb = require('../utility/ItemDB');
 var userItemDb = require('../utility/UserItemDB');
+const {check,validationResult } = require('express-validator/check');
 
 // This middleware function will set the welcome header and login button accordingly before any routing is called.
 router.get('/*',function(req,res,next){
@@ -42,16 +43,23 @@ router.get('/index',function(req,res){
 
   //This function will retrieve item details of particular item.
   //flag is used to hide/display save button according to user items in his profile.
-router.get('/categories/item/:itemCode',async function(req,res){
+router.get('/categories/item/:itemCode',check('itemCode').isLength({ min:1 }).isNumeric(),async function(req,res){
     var itemCode = req.params.itemCode;
     console.log("Item Code:"+ itemCode);
+    var errors = validationResult(req);
+	if (!errors.isEmpty()) {
+		console.log(errors.array());
+	} else {
+		console.log("no errors in item rendering");
+	}
     var x = new itemDb();
     var item = await x.getItem(itemCode);
-    var session = req.session.theUser;
+    var userObj = req.session.theUser;
     var flag = 0 ;
-    if(session){
+    if(userObj){
+        var userId = userObj.userID;
         var y = new userItemDb();
-        var userData = await y.getuserItemData(itemCode);
+        var userData = await y.getuserItemData(itemCode,userId);
         if(userData != null && userData.itemCode == itemCode){
             flag = 1;
         }

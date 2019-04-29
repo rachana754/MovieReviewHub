@@ -14,7 +14,16 @@ class UserDB {
           });
       });
     } 
-    
+    getUserName(username){
+     return new Promise(function (resolve,reject){
+            User.findOne({username:username}).then(function(data){
+                resolve(data);
+                console.log(data);
+            }).catch(function (err){
+                return reject(err);
+            });
+        });
+    }
     //This function returns all the users from DB
      getAllusers(){
          return new Promise(function (resolve,reject){

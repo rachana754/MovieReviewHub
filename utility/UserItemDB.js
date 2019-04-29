@@ -6,14 +6,12 @@ class UserItemDB{
     }
     
     //Returns all items of a user from DB
-    getuserItems(){
+    getuserItems(id){
         return new Promise(function(resolve,reject){
-            var stmt;
-            stmt = UserItem.find();
-            stmt.then(function(data){
+            UserItem.find({userID:id}).then(function(data){
                 resolve(data);
-                console.log('my user data');
-                console.log(data);
+                //console.log('my user data');
+                //console.log(data);
             }).catch(function(err){
                 return reject(err);
             });
@@ -22,14 +20,14 @@ class UserItemDB{
     
     //Returns particular item details of user.
     //Used in feedback page.
-    getuserItemData(itemID){
+    getuserItemData(itemID,userID){
         return new Promise(function(resolve,reject){
             var stmt;
-            stmt = UserItem.findOne({itemCode:itemID});
+            stmt = UserItem.findOne({itemCode:itemID,userID:userID});
             stmt.then(function(data){
                 resolve(data);
-                console.log('my user item data');
-                console.log(data);
+               // console.log('my user item data');
+                //console.log(data);
             }).catch(function(err){
                 return reject(err);
             });
@@ -39,10 +37,10 @@ class UserItemDB{
     //This function updates only item rating of an item
     addItemRating(itemID,userID,rating){
         return new Promise((resolve,reject) =>{
-            UserItem.findOneAndUpdate({itemCode:itemID},
+            UserItem.findOneAndUpdate({itemCode:itemID,userID:userID},
                 {$set:{rating:rating}},(err) => {
                 if (err) return console.error(err);
-                UserItem.find().then( data => {
+                UserItem.find({userID:userID}).then( data => {
                     console.log("Rating");
                     console.log(data);
                 resolve(data);
@@ -58,10 +56,10 @@ class UserItemDB{
     //This function updates only item watchedIt flag of an item
     addWatchedIt(itemID,userID,watchedIt){
         return new Promise((resolve,reject) =>{
-            UserItem.findOneAndUpdate({itemCode:itemID},
+            UserItem.findOneAndUpdate({itemCode:itemID,userID:userID},
                 {$set:{watchedIt:watchedIt}},(err) => {
                 if (err) return console.error(err);
-                UserItem.find().then( data => {
+                UserItem.find({userID:userID}).then( data => {
                     console.log("Watched ");
                     console.log(data);
                 resolve(data);
@@ -76,7 +74,7 @@ class UserItemDB{
     
     //This function updates item based on what is changed i.e rating or watchedIt flag.
     async updateItem(itemCode,userID,newRating,newFlag){
-        var itemData = await this.getuserItemData(itemCode);
+        var itemData = await this.getuserItemData(itemCode,userID);
         console.log(itemData);
         var actualRating = itemData.rating;
         console.log(itemData.rating);
@@ -100,11 +98,11 @@ class UserItemDB{
     }
     
     //This function removes or deletes an item from the users profile page and DB
-    removeItem(itemID){
+    removeItem(itemID,userID){
     return new Promise((resolve,reject) =>{
-          UserItem.deleteOne({itemCode:itemID},(err) =>{
+          UserItem.deleteOne({itemCode:itemID,userID:userID}, (err) =>{
               if (err) return console.error(err);
-              UserItem.find().then( data => {
+              UserItem.find({userID:userID}).then( data => {
               resolve(data);
               }).catch(err => {
               return reject(err);
@@ -116,15 +114,11 @@ class UserItemDB{
     }
 
     //This function adds an item to the users profile page.
-    async addItem(itemID){
-        let x = new Item();
-        var itemData = await x.getItem(itemID);
+     addItem(itemID,id){
         return new Promise((resolve,reject) =>{
-            UserItem.update({itemCode:itemID},
-                {$setOnInsert:{rating:0,watchedIt:0,userID:itemData.userID,itemName:itemData.itemName,itemCategory:itemData.catalogCategory}},
-                {upsert:true},(err) => {
+            UserItem.insertMany({itemCode:itemID,rating:0,watchedIt:0,userID:id}, (err) => {
                 if (err) return console.error(err);
-                UserItem.find().then( data => {
+                UserItem.find({userID:id}).then( data => {
                 resolve(data);
                 }).catch(err => {
                 return reject(err);
